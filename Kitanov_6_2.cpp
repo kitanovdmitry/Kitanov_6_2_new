@@ -9,45 +9,50 @@ struct our_struct
     our_struct* left, * right;
 };
 
-void add_elem(int elem_value, our_struct*& address_elem, int i)
+void add_elem(our_struct*& address, int value, int i)
 {
-    if(!address_elem)
+    if (address == 0)
     {
-        address_elem = new our_struct;
-        address_elem -> int_field = elem_value;
-        if (elem_value == 2)
+        address = new our_struct;
+
+        if (address != 0)
         {
-            address_elem -> left = 0;
-            address_elem -> right = 0;
+            address->int_field = value;
+            address->left = 0;
+            address->right = 0;
         }
         else
         {
-            address_elem -> left = 0;
-            address_elem -> right = 0;
+            cout << "Adding of " << value << " error. No memory available\n";
         }
-        return;
     }
     else
     {
+        if (value == (address->int_field))
+        {
+            cout << value << " is duplicate\n";
+            return;
+        }
+
         switch(i)
         {
-        case 0: //1
-            add_elem(elem_value, address_elem -> left, i);
+        case 0://1
+            add_elem(address->left, value, i);
             break;
-        case 1: //2
-            add_elem(elem_value, address_elem -> right, i);
+        case 1://2
+            add_elem(address->right, value, i);
             break;
-        case 2: //3
-            add_elem(elem_value, address_elem -> right, i);
+        case 2://3
+            add_elem(address->left, value, i);
             break;
-        case 3:// 4
-            add_elem(elem_value, address_elem -> left, i);
+        case 3://4
+            add_elem(address->right, value, i);
             break;
-        case 4:// 5
-            add_elem(elem_value, address_elem -> left, i);
+        case 4:
+            add_elem(address->left, value, i);
             break;
-        case 5:// 6
-            add_elem(elem_value, address_elem -> right, i);
+        case 5:
+            add_elem(address->right, value, i);
             break;
         }
     }
@@ -65,21 +70,21 @@ delete elem_address;
 return;
 }
 
-void print(our_struct* elem_address)
+void print(our_struct* address)
 
 {
 
-if (!elem_address) return;
+if (address == 0) return;
 indent += 5;
-print(elem_address-> left);
+print(address->left);
 
 for (int i = 0; i < indent; i++)
 {
     cout << " ";
 }
 
-cout << elem_address -> int_field << "\n";
-print(elem_address -> right);
+cout << address->int_field << "\n";
+print(address->right);
 indent -= 5;
 return;
 }
@@ -97,15 +102,11 @@ int main()
     {
             cout << "Enter a value of the " << i+1 << " element\n";
             cin >> elem_value[i];
-    }
-
-
-    for (int i = 0; i < number_of_elements; i++)
-    {
-                add_elem(elem_value[i], start_elem, i);
+            add_elem(start_elem, elem_value[i], i);
     }
 
     print(start_elem);
     free_memory(start_elem);
     return 0;
 }
+
