@@ -172,7 +172,6 @@ int main()
     cout << "Numbers of elements = " << number_of_elements << "\n";
 
     our_struct* start_elem = 0;
-    our_struct* add_start_elem;
     int *elem_value;
     elem_value = new int [number_of_elements];
 
